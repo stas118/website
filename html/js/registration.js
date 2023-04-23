@@ -1,6 +1,13 @@
 function onsubmit(event) {
     // Получаем значение поля email
     var email = document.getElementById('email').value;
+ 
+    // Проверяем, содержит ли email только латинские буквы
+    if (!/^[a-zA-Z\.@]+$/.test(email)) {
+        alert('Введите email на латинице');
+        event.preventDefault();
+        return;
+    }
 
     // TODO: Проверить наличие email, и если email нет то вывести ошибку "Введите email"
  
@@ -29,6 +36,17 @@ function onsubmit(event) {
           
            return;
     }
+
+    // Поле не должно содержать больше 10 символов
+   
+    if (password.length > 10) {
+    alert('Пароль не должен содержать более 10 символов');
+    event.preventDefault();
+
+        return;
+    }
+
+
     // TODO: Проверить совпадение паролей, и если пароли не совпадают то вывести ошибку "Пароли не совпадают"
     var confirm_password = document.getElementById('confirm_password').value
     if(password !== confirm_password) {
