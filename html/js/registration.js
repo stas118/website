@@ -13,8 +13,8 @@ function onsubmit(event) {
     }
 
     // Проверяем email
-    if (email.includes('') === false) {
-        // Не email
+    if (email.includes('@') === false) {
+        // Не верный email
         alert('Введите email');
         event.preventDefault();
         
@@ -30,7 +30,7 @@ function onsubmit(event) {
            return;
     }
     // TODO: Проверить совпадение паролей, и если пароли не совпадают то вывести ошибку "Пароли не совпадают"
-    var password = document.getElementById('password').value
+    var confirm_password = document.getElementById('confirm_password').value
     if(password !== confirm_password) {
          alert('Пароли не совпадают');
          event.preventDefault();
