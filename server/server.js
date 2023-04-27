@@ -42,11 +42,36 @@ function registerUser(req, res) {
   var email = req.body.email;
   var password = req.body.password;
   var confirm_password = req.body.confirm_password;
-
-  // TODO: написать проверки аналогичные как в  registration.js. В случае ошибки данных делать return false
+   // TODO: написать проверки аналогичные как в  registration.js. В случае ошибки данных делать return false
   // Пример проверки наличия email:
   // if (email.trim().length === 0) {
   //   return false;
+
+  if (!/^[a-zA-Z\.@]+$/.test(email)) {
+        return false;
+    }
+    if (email.trim().length === 0) {
+        return false;
+    }
+    if (email.includes('@') === false) {      
+        return false;
+    }
+
+    var password = document.getElementById('password').value
+    if(password.length === 0) {
+           return false;
+    }
+    if (password.length > 10) {
+     return false;
+    }
+
+    var confirm_password = document.getElementById('confirm_password').value
+    if(password !== confirm_password) {      
+           return false;
+       }
+}
+
+ 
   // }
 
   // TODO: в массиве users найти пользователя с таким же email. Если пользователь найден, то return false
@@ -55,7 +80,15 @@ function registerUser(req, res) {
   // const user = users.find(function(user) { return u.email === email })
   // Если user будет равен undefined, то пользователь не найден, если не undefined, то пользователь найден
   // Если пользователь найден, то return false
+    const user = users.find(function(user) {
+    return u.email === email;
+  });
 
+  if (user) {
+    return false;
+  }
+
+  return true;
   // Сохраняем пользователя
   saveUser(email, password);
   
@@ -81,18 +114,22 @@ function onRequest(req, res) {
     returnHtml("registration", req, res);
   
   // вызов страницы с успешной Регистрацией 
-  } else if (req.url == "/login") {
+  } else if (req.url === "/login") {
     returnHtml("login", req, res);
 
   // путь на котором обрабатывается запрос регистрации
   } else if (req.url ==="/register") {
     const result = registerUser(req, res);
-
-    // TODO: Проверить если result === false, то вывести страницу с ошибкой регистрации
+      // TODO: Проверить если result === false, то вывести страницу с ошибкой регистрации
     // А если нет, то вывести страницу с успешной регистрацией
     // Сейчас выводится всегда успешная
-    returnHtml("registration-success", req, res);
-  }
+     // Если регистрация не удалась, выводим страницу с ошибкой
+    if (!result) {
+      returnHtml("registration-error", req, res);
+    } else {
+      returnHtml("registration-success", req, res);
+    }
+
 }
 
 // Возвращает html-страницу и обрабатывать запросы
