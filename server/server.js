@@ -86,6 +86,15 @@ function registerUser(req, res) {
   return true;
 }
 
+function authUser(req, res) {
+  // Получаем значение полей email, password
+  var email = req.body.email;
+  var password = req.body.password;
+
+  // TODO: нужно в массиве пользователей найти пользователя с таким же email и сохранить в переменную user
+  // У нас наверху так уже делается. И у этого объекта user проверить что пароль совпадает с тем что ввел пользователь (password)
+  // Если все ок return true если не совпадает то false
+}
 
 
 
@@ -120,6 +129,11 @@ function onRequest(req, res) {
       returnHtml("registration-success", req, res);
     }
   }
+
+  // TODO: Сделать обработку пути /auth в котором будет происходить авторизация пользователя
+  // путем вызова  функции authUser(req, res) и в случает успешной авторизации выводить страницу
+  // auth-success.html, а если авторизация не удалась, то выводить страницу auth-error.html
+  // Эти страницы тоже сделать по образу и подобию
 }
 
 // Возвращает html-страницу и обрабатывать запросы
