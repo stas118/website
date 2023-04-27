@@ -8,17 +8,29 @@ function onRequest(req, res) {
   
   if (req.url.startsWith('/static/')) {
     returnStatic(req, res);
-  } else {
-    returnHtml(req, res);
+
+// вызов страницы авторизации
+
+  } else if (req.url ==="/registration") {
+    returnHtml("registration", req, res);
+// вызов страницы с успешной Регистрацией 
+  } else if (req.url == "/login") {
+    returnHtml("login", req, res);
+  } else if (req.url ==="/register") {
+    returnHtml("registration-success", req, res);
   }
+
+  
 
 }
 
 // Возвращает html-страницу и обрабатывать запросы
-function returnHtml (req, res) {
+function returnHtml (name, req, res) {
   // if user requests an html page, return the html file
-  const filename = path.join(__dirname, '../html', `${req.url}.html`);
+  
+  const filename = __dirname + '/../html/' + name + ".html" ;
   const stream = fs.createReadStream(filename);
+
 
   stream.on('error', err => {
     res.writeHead(404, { 'Content-Type': 'text/plain' });
