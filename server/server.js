@@ -13,12 +13,12 @@ const bodyParser = require('body-parser');
 var users = [];
 
 // Путь до файла в котором хранятся пользователи
-const usersFile = __dirname + "/../data/users.json";
+const usersFile = __dirname + "/../users.json";
 
 // Проверяем что файл есть
-if (fs.existsSync(filename)) {
+if (fs.existsSync(usersFile)) {
   // Если файл есть, то читаем его и получаем JSON просто в виде строки которую сохраняем в data
-  const data = fs.readFileSync(filename, 'utf-8');
+  const data = fs.readFileSync(usersFile, 'utf-8');
 
   // Преобразуем строку в массив и сохраняем в переменную users
   users = JSON.parse(data);
@@ -42,53 +42,43 @@ function registerUser(req, res) {
   var email = req.body.email;
   var password = req.body.password;
   var confirm_password = req.body.confirm_password;
-   // TODO: написать проверки аналогичные как в  registration.js. В случае ошибки данных делать return false
-  // Пример проверки наличия email:
-  // if (email.trim().length === 0) {
-  //   return false;
 
   if (!/^[a-zA-Z\.@]+$/.test(email)) {
-        return false;
-    }
-    if (email.trim().length === 0) {
-        return false;
-    }
-    if (email.includes('@') === false) {      
-        return false;
-    }
-
-    var password = document.getElementById('password').value
-    if(password.length === 0) {
-           return false;
-    }
-    if (password.length > 10) {
-     return false;
-    }
-
-    var confirm_password = document.getElementById('confirm_password').value
-    if(password !== confirm_password) {      
-           return false;
-       }
-}
-
- 
-  // }
-
-  // TODO: в массиве users найти пользователя с таким же email. Если пользователь найден, то return false
-  // массив users это массив объектов вида [ { email: "vasya@gmail.com", password: "123123" }, ... ]
-  // Для этого нужно использовать метод find. Пример использования:
-  // const user = users.find(function(user) { return u.email === email })
-  // Если user будет равен undefined, то пользователь не найден, если не undefined, то пользователь найден
-  // Если пользователь найден, то return false
-    const user = users.find(function(user) {
-    return u.email === email;
-  });
-
-  if (user) {
+    console.log("Email is not valid")
+    return false;
+  }
+  if (email.trim().length === 0) {
+    console.log("Email is empty")
+    return false;
+  }
+  if (email.includes('@') === false) {     
+    console.log("Email is not has @")
     return false;
   }
 
-  return true;
+  if(password.length === 0) {
+    console.log("Password is empty")
+    return false;
+  }
+  if (password.length < 8) {
+    console.log("Password is not valid")
+    return false;
+  }
+
+  if(password !== confirm_password) {   
+    console.log("Password is not equal confirm_password")   
+    return false;
+  }
+
+  const user = users.find(function(user) {
+    return user.email === email;
+  });
+
+  if (user) {
+    console.log("User already exists");
+    return false;
+  }
+
   // Сохраняем пользователя
   saveUser(email, password);
   
@@ -129,7 +119,7 @@ function onRequest(req, res) {
     } else {
       returnHtml("registration-success", req, res);
     }
-
+  }
 }
 
 // Возвращает html-страницу и обрабатывать запросы
@@ -174,7 +164,4 @@ const port = 3000;
 server.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
-
-
-
 
