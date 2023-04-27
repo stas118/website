@@ -2,6 +2,10 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
+const express = require('express');
+const bodyParser = require('body-parser');
+
+
 // Метод вызывается на каждый запрос к серверу
 function onRequest(req, res) {
   console.log(`Incoming request for ${req.url}`);
@@ -57,7 +61,10 @@ function returnStatic(req, res) {
   stream.pipe(res);
 }
 
-const server = http.createServer(onRequest);
+const server = express();
+
+server.use(bodyParser.urlencoded({ extended: false }));
+server.use(onRequest)
 
 const port = 3000;
 server.listen(port, () => {
