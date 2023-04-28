@@ -86,17 +86,23 @@ function registerUser(req, res) {
   return true;
 }
 
-function authUser(req, res) {
+function authUser(req, res) 
   // Получаем значение полей email, password
   var email = req.body.email;
   var password = req.body.password;
 
-  // TODO: нужно в массиве пользователей найти пользователя с таким же email и сохранить в переменную user
-  // У нас наверху так уже делается. И у этого объекта user проверить что пароль совпадает с тем что ввел пользователь (password)
-  // Если все ок return true если не совпадает то false
+  /// ищем нового пользователя c таким же email   
+
+const user = users.find(function(user)) {
+    return user.email === email;
+  };
+    // Если пользователь не найден или пароль не совпадает, возвращаем false
+  if (!user || user.password !== password) {
+    console.log("Invalid email or password");
+    return false;
+  }
+  return true;
 }
-
-
 
 /**
  * Обработка запросов
@@ -119,21 +125,40 @@ function onRequest(req, res) {
   // путь на котором обрабатывается запрос регистрации
   } else if (req.url ==="/register") {
     const result = registerUser(req, res);
-      // TODO: Проверить если result === false, то вывести страницу с ошибкой регистрации
-    // А если нет, то вывести страницу с успешной регистрацией
-    // Сейчас выводится всегда успешная
-     // Если регистрация не удалась, выводим страницу с ошибкой
+
     if (!result) {
       returnHtml("registration-error", req, res);
     } else {
       returnHtml("registration-success", req, res);
     }
   }
+   } else if (req.url === '/auth') {
+  const result = authUser(req, res);
 
+  if (!result) {
+    returnHtml('auth-error', req, res);
+  } else {
+    returnHtml('auth-success', req, res);
+  }
+}
   // TODO: Сделать обработку пути /auth в котором будет происходить авторизация пользователя
   // путем вызова  функции authUser(req, res) и в случает успешной авторизации выводить страницу
   // auth-success.html, а если авторизация не удалась, то выводить страницу auth-error.html
   // Эти страницы тоже сделать по образу и подобию
+
+function authUser(req, res) {
+  var email = req.body.email;
+  var password = req.body.password;
+
+  const user = users.find((user) => user.email === email && user.password === password);
+
+  if (!user) {
+    console.log('User not found');
+    return false;
+  }
+
+  // Успешная авторизация
+  return true;
 }
 
 // Возвращает html-страницу и обрабатывать запросы
