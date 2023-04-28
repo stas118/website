@@ -86,16 +86,15 @@ function registerUser(req, res) {
   return true;
 }
 
-function authUser(req, res) 
+function authUser(req, res) {
   // Получаем значение полей email, password
   var email = req.body.email;
   var password = req.body.password;
 
   /// ищем нового пользователя c таким же email   
-
-const user = users.find(function(user)) {
+  const user = users.find(function(user) {
     return user.email === email;
-  };
+  });
     // Если пользователь не найден или пароль не совпадает, возвращаем false
   if (!user || user.password !== password) {
     console.log("Invalid email or password");
@@ -131,14 +130,14 @@ function onRequest(req, res) {
     } else {
       returnHtml("registration-success", req, res);
     }
-  }
-   } else if (req.url === '/auth') {
-  const result = authUser(req, res);
+  } else if (req.url === '/auth') {
+    const result = authUser(req, res);
 
-  if (!result) {
-    returnHtml('auth-error', req, res);
-  } else {
-    returnHtml('auth-success', req, res);
+    if (!result) {
+      returnHtml('auth-error', req, res);
+    } else {
+      returnHtml('auth-success', req, res);
+    }
   }
 }
   // TODO: Сделать обработку пути /auth в котором будет происходить авторизация пользователя
