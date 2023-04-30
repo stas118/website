@@ -39,8 +39,8 @@ function onsubmit(event) {
 
     // Поле не должно содержать больше 10 символов
    
-    if (password.length > 10) {
-    alert('Пароль не должен содержать более 10 символов');
+    if (password.length < 8) {
+    alert('Пароль должен содержать не менее 8 символов');
     event.preventDefault();
 
         return;
