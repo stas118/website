@@ -1,4 +1,3 @@
-    const email="hell"+Date.now()+"@yandex.ru"
 // Здесь тесты которые проверяют выводы "алертов" на неправильный ввод данных регистрации
 describe('Негативные кейсы регистрации', () => {
 
@@ -76,41 +75,4 @@ describe('Негативные кейсы регистрации', () => {
         const alertText = await browser.getAlertText();
         expect(alertText).toBe('Пароли не совпадают')
     })    
-})
-
-describe('Позитивные кейсы регистрации', () => {
-
-    // Перед каждым тестом
-    beforeEach(async () => {
-        browser.url('/registration')
-    });
-
-    //вводим валидные данные в поля 
-    it.only('Регистрация успешна', async function() {
-        await $('#email').setValue(email)
-        await $('#password').setValue('password')
-        await $('#confirm_password').setValue('password')
-        await $('button[type="submit"]').click()
-        // Проверяем, что регистрация прошла успешно и появился текст "Регистрация успешна"
-        await $('#result-text').waitForDisplayed()
-        const resultText = await $('#result-text').getText()
-        expect(resultText).toBe('Регистрация успешна')
-    })
-})
-describe('Позитивные кейсы авторизации', () => {
-
-    // Перед каждым тестом
-    beforeEach(async () => {
-        await browser.url('/login')
-    });
-     //вводим валидные данные в поля 
-    it.only('Авторизация успешна', async function() {
-        await $('#email').setValue('hell@omail.ru')
-        await $('#password').setValue('password')
-        await $('button[type="submit"]').click()
-        // Проверяем, что авторизация прошла успешно и появился текст "Авторизация успешна"
-        await $('#result-text').waitForDisplayed()
-        const resultText = await $('#result-text').getText()
-        expect(resultText).toBe('Авторизация успешна')
-    })
-})
+});
