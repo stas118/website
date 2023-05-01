@@ -3,7 +3,7 @@ function onsubmit(event) {
     var email = document.getElementById('email').value;
  
     // Проверяем, содержит ли email только латинские буквы
-    if (!/^[a-zA-Z\.@]+$/.test(email)) {
+    if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
         alert('Введите email на латинице');
         event.preventDefault();
         return;
@@ -13,15 +13,6 @@ function onsubmit(event) {
  
     if (email.trim().length === 0) {
 
-        alert('Введите email');
-        event.preventDefault();
-        
-        return;
-    }
-
-    // Проверяем email
-    if (email.includes('@') === false) {
-        // Не верный email
         alert('Введите email');
         event.preventDefault();
         

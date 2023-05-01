@@ -43,7 +43,7 @@ function registerUser(req, res) {
   var password = req.body.password;
   var confirm_password = req.body.confirm_password;
 
-  if (!/^[a-zA-Z\.@]+$/.test(email)) {
+  if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
     console.log("Email is not valid")
     return false;
   }
@@ -134,6 +134,7 @@ function onRequest(req, res) {
     const result = authUser(req, res);
 
     if (!result) {
+      res.status(400);
       returnHtml('auth-error', req, res);
     } else {
       returnHtml('auth-success', req, res);

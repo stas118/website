@@ -34,7 +34,7 @@ describe('Негативные кейсы регистрации', () => {
 
         // Проверяем, что появился алерт с текстом "Введите email"
         const alertText = await browser.getAlertText();
-        expect(alertText).toBe('Введите email')
+        expect(alertText).toBe('Введите email на латинице')
     })
 
     it('Email должен быть валидным', async function() {
