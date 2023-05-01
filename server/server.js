@@ -126,6 +126,7 @@ function onRequest(req, res) {
     const result = registerUser(req, res);
 
     if (!result) {
+      res.status(400);
       returnHtml("registration-error", req, res);
     } else {
       returnHtml("registration-success", req, res);
@@ -175,7 +176,7 @@ function returnHtml (name, req, res) {
     res.end();
   });
 
-  res.writeHead(200, { 'Content-Type': 'text/html' });
+  res.type('html');
   stream.pipe(res);
 }
 
