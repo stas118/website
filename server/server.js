@@ -49,7 +49,7 @@ function registerUser(req, res) {
   if (email.trim().length === 0) {
     console.log("Email is empty")
     return "Email не введен";
-
+  }
   // Проверяет наличие @
   if (email.includes('@') === false) {     
     console.log("Email is not has @")
@@ -213,4 +213,3 @@ const port = 3000;
 server.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
-

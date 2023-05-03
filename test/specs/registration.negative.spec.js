@@ -70,7 +70,6 @@ describe('Негативные кейсы регистрации', () => {
 
         // Жмем кнопку "Зарегистрироваться". Селектор ищет тэг button с атрибутом type="submit"
         await $('button[type="submit"]').click()
-
         // Проверяем, что появился алерт с текстом "Пароли не совпадают"
         const alertText = await browser.getAlertText();
         expect(alertText).toBe('Пароли не совпадают')

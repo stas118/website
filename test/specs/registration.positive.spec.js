@@ -1,21 +1,34 @@
 describe('Позитивные кейсы регистрации', () => {
     var email;
 
-    // Перед каждым тестом
-    beforeEach(async () => {
+    async function registerUser() {
         email = "hello" + Date.now() + "@mail.ru";
         browser.url('/registration')
-    });
-
-    //вводим валидные данные в поля 
-    it('Регистрация успешна', async function() {
         await $('#email').setValue(email)
         await $('#password').setValue('password')
         await $('#confirm_password').setValue('password')
         await $('button[type="submit"]').click()
-        // Проверяем, что регистрация прошла успешно и появился текст "Регистрация успешна"
         await $('#result-text').waitForDisplayed()
         const resultText = await $('#result-text').getText()
         expect(resultText).toBe('Регистрация успешна')
+    }
+
+    // Перед каждым тестом
+    beforeEach(async () => {
+        await registerUser();
+        await browser.url('/registration')
+    });
+
+    //повторная регистрация  с зарегистрированным пользователем
+    // TODO: регистрации использовать email, который был зарегистрирован в beforeEach
+    it('Такой пользователь уже существует', async function() {
+        await $('#email').setValue(email)
+        await $('#password').setValue('password')
+        await $('#confirm_password').setValue('password')
+        await $('button[type="submit"]').click()
+        // Проверяем что появился текст "Такой пользователь уже существует"
+        await $('#result-text').waitForDisplayed()
+        const resultText = await $('#result-text').getText()
+        expect(resultText).toBe('Такой пользователь уже существует')
     })
 })
