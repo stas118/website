@@ -21,7 +21,7 @@ describe('Негативные кейсы регистрации', () => {
 
         // Проверяем, что появился алерт с текстом "Введите email на латинице"
         const alertText = await browser.getAlertText();
-        expect(alertText).toBe('Введите email на латинице')
+        expect(alertText).toBe('Email должен быть валидным')
     })
 
     it('Email должен быть с символом @', async function() {
@@ -44,7 +44,7 @@ describe('Негативные кейсы регистрации', () => {
 
         // Проверяем, что появился алерт с текстом "Введите email на латинице"
         const alertText = await browser.getAlertText();
-        expect(alertText).toBe('Введите email на латинице')
+        expect(alertText).toBe('Введите email')
     })
     
     it('Пароль должен быть не более 10 символов', async function() {

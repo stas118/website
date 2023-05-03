@@ -12,9 +12,9 @@ describe('Негативные кейсы регистрации', () => {
     afterEach(async () => {
         browser.acceptAlert();
     });
-
+        //2
     it('Email должен быть валидным', async function () {
-        // Проверяем, что поле email не валидно. вводим по со специсимволами
+        // Проверяем, что поле email не валидно. вводим  со специсимволами
         // Селектор ищет по id="email"
         await $('#email').setValue('Привет@dmail.ru')
 
@@ -25,7 +25,7 @@ describe('Негативные кейсы регистрации', () => {
         const alertText = await browser.getAlertText();
         expect(alertText).toBe('Введите email на латинице')
     })
-
+    //3
     it('Email должен быть с символом @', async function () {
         // Проверяем, что поле email не валидно. вводим без знака @
         // Селектор ищет по id="email"
@@ -38,7 +38,7 @@ describe('Негативные кейсы регистрации', () => {
         const alertText = await browser.getAlertText();
         expect(alertText).toBe('Введите email')
     })
-
+    //4
     it('Email должен быть валидным', async function () {
 
         // Жмем кнопку "Зарегистрироваться". Селектор ищет тэг button с атрибутом type="submit"
@@ -48,10 +48,9 @@ describe('Негативные кейсы регистрации', () => {
         const alertText = await browser.getAlertText();
         expect(alertText).toBe('Введите email на латинице')
     })
-
-    it('Пароль должен быть не более 10 символов', async function () {
-        // Проверяем, что поле password не валидно. Вводим пароль, содержащий более 10 символов.
-        // Селектор ищет по id="password"
+    //5
+    it('Пароль должен содержать не менее 8 символов', async function () {
+        // Проверяем, что поле password не валидно. Вводим пароль, содержащий менее 8 символов.
         await $('#email').setValue('hello@mail.ru')
         await $('#password').setValue('1234567')
 
@@ -62,7 +61,7 @@ describe('Негативные кейсы регистрации', () => {
         const alertText = await browser.getAlertText();
         expect(alertText).toBe('Пароль должен содержать не менее 8 символов')
     })
-
+    //6
     it('Пароли должны совпадать', async function () {
         // Проверяем, что поле password_confirmation не валидно. Вводим пароли, не совпадающие.
         // Селектор ищет по id="password" и по id="password_confirmation"
