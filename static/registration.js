@@ -1,13 +1,7 @@
 function onsubmit(event) {
     // Получаем значение поля email
     var email = document.getElementById('email').value;
- 
-    // Проверяем, содержит ли email только латинские буквы
-    if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
-        alert('Введите email на латинице');
-        event.preventDefault();
-        return;
-    }
+   
 
     // TODO: Проверить наличие email, и если email нет то вывести ошибку "Введите email"
  
@@ -17,7 +11,15 @@ function onsubmit(event) {
         event.preventDefault();
         
         return;
+    } 
+    // Проверяем, содержит ли email только латинские буквы
+    if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+        alert('Email должен быть валидным');
+        event.preventDefault();
+        return;
     }
+
+
 
     // TODO: Проверить наличие пароля, и если пароля нет то вывести ошибку "Введите пароль"
     var password = document.getElementById('password').value
