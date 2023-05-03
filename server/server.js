@@ -5,6 +5,8 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const ejs = require('ejs');
+
 /**
  * Работа с файлом в котором хранятся пользователи
  **/
@@ -45,8 +47,10 @@ function registerUser(req, res) {
 
   if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
     console.log("Email is not valid")
-    return false;
+    return false
   }
+
+
   if (email.trim().length === 0) {
     console.log("Email is empty")
     return false;
@@ -76,7 +80,9 @@ function registerUser(req, res) {
 
   if (user) {
     console.log("User already exists");
-    return false;
+    
+    // Возвращаем ошибку текстов. Если результат текстовый значит это ошибка
+    return "Такой пользователь уже существует";
   }
 
   // Сохраняем пользователя
@@ -125,15 +131,18 @@ function onRequest(req, res) {
   } else if (req.url ==="/register") {
     const result = registerUser(req, res);
 
-    if (!result) {
+    if (typeof(result) === "string") {
       res.status(400);
-      returnHtml("registration-error", req, res);
+      // Вместо returnHtml вызываем функцию которая возвращает страницу ШАБЛОНА с ошибкой
+      res.render("registration-error", { result: result });
     } else {
+      // А здесь мы возвращаем уже готовую страницу. Потому что регистрация успешна и у нас уже есть готовая html
       returnHtml("registration-success", req, res);
     }
   } else if (req.url === '/auth') {
     const result = authUser(req, res);
 
+    // TODO: Реализовать вывод ошибки через шаблон если авторизация не удалась как в регистрации
     if (!result) {
       res.status(400);
       returnHtml('auth-error', req, res);
@@ -196,6 +205,10 @@ function returnStatic(req, res) {
 }
 
 const server = express();
+
+// Устанавливаем папку для файлов шаблонов
+server.set('view engine', 'ejs');
+server.set('views', path.join(__dirname, '..', 'ejs'));
 
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(onRequest)
