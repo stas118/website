@@ -49,8 +49,9 @@ describe('Негативные кейсы авторизации', () => {
         const resultText = await $('#result-text').getText()
         expect(resultText).toBe('Ошибка авторизации')
     })
-    	// вводим пароль без email
+    	// 
         it('Ошибка авторизации', async function() {
+        await $('#email').setValue('емайл')
         await $('#password').setValue('1')
         await $('button[type="submit"]').click()
         // Проверяем, что авторизация не прошла  и появился текст "Ошибка авторизации"

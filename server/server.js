@@ -45,37 +45,33 @@ function registerUser(req, res) {
   var email = req.body.email;
   var password = req.body.password;
   var confirm_password = req.body.confirm_password;
-
-  // TODO: Эта ошибка уже третяя, так как она самая сложная проверяет по шаблону
-  if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
-    console.log("Email is not valid")
-    return false
-  }
-
-  // TODO: Эта ошибка должна идти первой, так как она самая простая
+ 
   if (email.trim().length === 0) {
     console.log("Email is empty")
-    return false;
-  }
+    return "Email не введен";
 
-  // TODO Эта ошибка должна идти второй, так как проверяет наличие @
+  // Проверяет наличие @
   if (email.includes('@') === false) {     
     console.log("Email is not has @")
-    return false;
+     return "email без знака @";
+  }
+    if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+    console.log("Email is not valid")
+    return "Пароль не валидный";
   }
 
   if(password.length === 0) {
     console.log("Password is empty")
-    return false;
+    return "Пароль не введен";
   }
   if (password.length < 8) {
     console.log("Password is not valid")
-    return false;
+    return "Пароли меньше 8 символов";
   }
 
   if(password !== confirm_password) {   
     console.log("Password is not equal confirm_password")   
-    return false;
+     return "Пароли не совпадают";
   }
 
   const user = users.find(function(user) {
@@ -84,7 +80,7 @@ function registerUser(req, res) {
 
   // TODO написать тесткейс в автоматизированом тестировании который проверяет этот кейс с существующим пользователем
   if (user) {
-    console.log("User already exists");
+    console.log("User already exists")
 
     // Возвращаем ошибку текстов. Если результат текстовый значит это ошибка
     return "Такой пользователь уже существует";
