@@ -38,6 +38,7 @@ function saveUser(email, password) {
   fs.writeFileSync(usersFile, JSON.stringify(users));
 }
 
+// TODO: В случае ошибки не отправлять false а отправлять текст ошибки
 // Функция обработки запроса регистрации юзера
 function registerUser(req, res) {
   // Получаем значение полей email, password, confirm_password
@@ -45,16 +46,19 @@ function registerUser(req, res) {
   var password = req.body.password;
   var confirm_password = req.body.confirm_password;
 
+  // TODO: Эта ошибка уже третяя, так как она самая сложная проверяет по шаблону
   if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
     console.log("Email is not valid")
     return false
   }
 
-
+  // TODO: Эта ошибка должна идти первой, так как она самая простая
   if (email.trim().length === 0) {
     console.log("Email is empty")
     return false;
   }
+
+  // TODO Эта ошибка должна идти второй, так как проверяет наличие @
   if (email.includes('@') === false) {     
     console.log("Email is not has @")
     return false;
@@ -78,9 +82,10 @@ function registerUser(req, res) {
     return user.email === email;
   });
 
+  // TODO написать тесткейс в автоматизированом тестировании который проверяет этот кейс с существующим пользователем
   if (user) {
     console.log("User already exists");
-    
+
     // Возвращаем ошибку текстов. Если результат текстовый значит это ошибка
     return "Такой пользователь уже существует";
   }
@@ -142,7 +147,6 @@ function onRequest(req, res) {
   } else if (req.url === '/auth') {
     const result = authUser(req, res);
 
-    // TODO: Реализовать вывод ошибки через шаблон если авторизация не удалась как в регистрации
     if (!result) {
       res.status(400);
       returnHtml('auth-error', req, res);
@@ -151,10 +155,6 @@ function onRequest(req, res) {
     }
   }
 }
-  // TODO: Сделать обработку пути /auth в котором будет происходить авторизация пользователя
-  // путем вызова  функции authUser(req, res) и в случает успешной авторизации выводить страницу
-  // auth-success.html, а если авторизация не удалась, то выводить страницу auth-error.html
-  // Эти страницы тоже сделать по образу и подобию
 
 function authUser(req, res) {
   var email = req.body.email;
