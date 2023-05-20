@@ -22,7 +22,7 @@ describe('Негативные кейсы авторизации', () => {
     });
 
     //вводим  данные несуществующего пользователя
-    it('Ошибка авторизации', async function() {
+    it('данные несуществующего пользователя', async function() {
         await $('#email').setValue(email)
         await $('#password').setValue('1')
         await $('button[type="submit"]').click()
@@ -32,7 +32,7 @@ describe('Негативные кейсы авторизации', () => {
         expect(resultText).toBe('Ошибка авторизации')
     })
         //вводим  данные несуществующего пользователя на русском языке
-    it('Ошибка авторизации', async function() {
+    it('Email только на кирилице', async function() {
         await $('#email').setValue('емайл')
         await $('#password').setValue('1')
         await $('button[type="submit"]').click()
@@ -42,7 +42,7 @@ describe('Негативные кейсы авторизации', () => {
         expect(resultText).toBe('Ошибка авторизации')
     })
         //оставляем поля пустыми
-    it('Ошибка авторизации', async function() {
+    it('оставляем поля пустыми', async function() {
         await $('button[type="submit"]').click()
         // Проверяем, что авторизация не прошла  и появился текст "Ошибка авторизации"
         await $('#result-text').waitForDisplayed()
@@ -51,7 +51,6 @@ describe('Негативные кейсы авторизации', () => {
     })
     	// 
         it('Ошибка авторизации', async function() {
-        await $('#email').setValue('емайл')
         await $('#password').setValue('1')
         await $('button[type="submit"]').click()
         // Проверяем, что авторизация не прошла  и появился текст "Ошибка авторизации"

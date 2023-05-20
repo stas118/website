@@ -12,6 +12,14 @@ function onsubmit(event) {
         
         return;
     } 
+
+        // Проверяем длину поля ввода email
+    if (email.length > 30) {
+        alert('Email не должен содержать больше 30 символов');
+        event.preventDefault();
+        return;
+    }
+
     // Проверяем, содержит ли email только латинские буквы
     if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
         alert('Email должен быть валидным');
@@ -30,15 +38,19 @@ function onsubmit(event) {
            return;
     }
 
-    // Поле не должно содержать больше 10 символов
+    // Поле не должно содержать менее 8 и не более 30 символов
    
-    if (password.length < 8) {
-    alert('Пароль должен содержать не менее 8 символов');
+    if (password.length < 8 || password.length > 30) {
+    alert('Пароль должен содержать от 8 до 30 символов');
     event.preventDefault();
 
         return;
     }
-
+    
+    if (confirm_password.length < 8 || confirm_password.length > 30) {
+    alert('Подтверждение пароля должно содержать от 8 до 30 символов');
+    event.preventDefault();
+    return;
 
     // TODO: Проверить совпадение паролей, и если пароли не совпадают то вывести ошибку "Пароли не совпадают"
     var confirm_password = document.getElementById('confirm_password').value
