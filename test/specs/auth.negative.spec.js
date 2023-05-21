@@ -32,7 +32,7 @@ describe('Негативные кейсы авторизации', () => {
         expect(resultText).toBe('Ошибка авторизации')
     })
         //вводим  данные несуществующего пользователя на русском языке
-    it('Email только на кирилице', async function() {
+    it('Email на кирилице', async function() {
         await $('#email').setValue('емайл')
         await $('#password').setValue('1')
         await $('button[type="submit"]').click()
@@ -49,8 +49,8 @@ describe('Негативные кейсы авторизации', () => {
         const resultText = await $('#result-text').getText()
         expect(resultText).toBe('Ошибка авторизации')
     })
-    	// 
-        it('Ошибка авторизации', async function() {
+    	// вводим только password
+    it('ввод только password', async function() {
         await $('#password').setValue('1')
         await $('button[type="submit"]').click()
         // Проверяем, что авторизация не прошла  и появился текст "Ошибка авторизации"
@@ -58,4 +58,13 @@ describe('Негативные кейсы авторизации', () => {
         const resultText = await $('#result-text').getText()
         expect(resultText).toBe('Ошибка авторизации')
     })
+        // вводим только email
+    it('ввод только email', async function() {
+        await $('#email').setValue('hello@mail.ru')
+        await $('button[type="submit"]').click()
+        // Проверяем, что авторизация не прошла  и появился текст "Ошибка авторизации"
+        await $('#result-text').waitForDisplayed()
+        const resultText = await $('#result-text').getText()
+        expect(resultText).toBe('Ошибка авторизации')
+    })       
 })

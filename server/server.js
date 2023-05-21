@@ -49,7 +49,7 @@ function registerUser(req, res) {
   if (email.trim().length === 0) {
     console.log("Email is empty")
     return "Email не введен";
-  }
+
   // Проверяет наличие @
   if (email.includes('@') === false) {     
     console.log("Email is not has @")
@@ -93,22 +93,7 @@ function registerUser(req, res) {
   return true;
 }
 
-function authUser(req, res) {
-  // Получаем значение полей email, password
-  var email = req.body.email;
-  var password = req.body.password;
 
-  /// ищем нового пользователя c таким же email   
-  const user = users.find(function(user) {
-    return user.email === email;
-  });
-    // Если пользователь не найден или пароль не совпадает, возвращаем false
-  if (!user || user.password !== password) {
-    console.log("Invalid email or password");
-    return false;
-  }
-  return true;
-}
 
 /**
  * Обработка запросов
